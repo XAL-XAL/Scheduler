@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "819556310752",
+    "project_id": "scheduler-f4eaa",
+    "storage_bucket": "scheduler-f4eaa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819556310752:android:49332d4e82a0ff8652fa85",
+        "android_client_info": {
+          "package_name": "com.example.scheduler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819556310752-933ijhrve3h18hpb6g77am59vuad8b55.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxczMscWqk6h_ncpQoABfWQiMPotAihFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819556310752-933ijhrve3h18hpb6g77am59vuad8b55.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
