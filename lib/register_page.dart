@@ -40,10 +40,16 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-
+  late int selectedRadioTile = 0;
 
   @override
   Widget build(BuildContext context) {
+
+    setSelectedType(int val) {
+      setState(() {
+        selectedRadioTile = val;
+      });
+    }
 
     const registerTitle = Padding(
       padding: EdgeInsets.all(8.0),
@@ -281,6 +287,37 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
+    final managerButton = ListTile(
+      title: const Text('Manager', style: TextStyle(color: Colors.white)),
+      leading: Radio(
+        value: 1,
+        groupValue: selectedRadioTile,
+        activeColor: lightTeal,
+        onChanged: (val) {
+          setSelectedType(1);
+        },
+      )
+    );
+    final employeeButton = ListTile(
+        title: const Text('Employee', style: TextStyle(color: Colors.white)),
+        leading: Radio(
+          value: 2,
+          groupValue: selectedRadioTile,
+          activeColor: lightTeal,
+          onChanged: (val) {
+            setSelectedType(2);
+          },
+        )
+    );
+
+    final radioSelection = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Expanded(child: managerButton),
+        Expanded(child: employeeButton),
+      ],
+    );
+
     final signupButton = Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: RaisedButton(
@@ -344,6 +381,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   emailField,
                   passwordField,
                   passwordConfirm,
+                  radioSelection,
                   signupButton,
                   cancelButton,
                 ],
