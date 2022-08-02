@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-//import 'package:scheduler/register_page.dart';
-
+import 'package:scheduler/colors.dart';
+import 'register_page.dart';
 import 'login_page.dart';
 
 Future<void> main() async {
@@ -12,8 +12,8 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
-    LoginPage.tag: (context) => LoginPage(),
-    //RegisterPage.tag: (context) => RegisterPage(),
+    LoginPage.tag: (context) => const LoginPage(),
+    RegisterPage.tag: (context) => RegisterPage(),
   };
 
   @override
@@ -25,13 +25,20 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            textSelectionTheme: const TextSelectionThemeData(
+              selectionHandleColor: Colors.transparent,
+            ),
+            primaryColor: Colors.white,
           ),
           home: MaterialApp(
             title: 'Login',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primarySwatch: Colors.lightBlue,
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: darkTeal,
+                selectionHandleColor: Colors.transparent,
+              ),
+              primaryColor: Colors.white,
               fontFamily: 'Nunito',
             ),
             home: LoginPage(),

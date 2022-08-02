@@ -74,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
         }
         return null;
       },
+      style: const TextStyle(color: Colors.white),
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       controller: emailController,
@@ -108,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
       onFieldSubmitted: (v) {
         FocusScope.of(context).requestFocus(node);
       },
+      style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(32.0),
@@ -149,9 +151,9 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final forgotLabel = FlatButton(
-      child: const Text(
+      child: Text(
         'Forgot password?',
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: lightTeal),
       ),
       onPressed: () {},
     );

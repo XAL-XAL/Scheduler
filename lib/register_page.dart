@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:scheduler/colors.dart';
 
 class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
+
+  const RegisterPage({Key? key}) : super(key: key);
   @override
-  _RegisterPageState createState() => new _RegisterPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
@@ -15,11 +18,11 @@ class _RegisterPageState extends State<RegisterPage> {
   //
   // Note: This is a GlobalKey<FormState>, not a GlobalKey<MyCustomFormState>!
   final _formKey = GlobalKey<FormState>();
-  final emailTextEditController = new TextEditingController();
-  final firstNameTextEditController = new TextEditingController();
-  final lastNameTextEditController = new TextEditingController();
-  final passwordTextEditController = new TextEditingController();
-  final confirmPasswordTextEditController = new TextEditingController();
+  final emailTextEditController = TextEditingController();
+  final firstNameTextEditController = TextEditingController();
+  final lastNameTextEditController = TextEditingController();
+  final passwordTextEditController = TextEditingController();
+  final confirmPasswordTextEditController = TextEditingController();
 
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _firstNameFocus = FocusNode();
@@ -37,176 +40,261 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-          child: Form(
-              key: _formKey,
-              child: ListView(
-                shrinkWrap: true,
-                padding: EdgeInsets.only(top: 36.0, left: 24.0, right: 24.0),
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Register',
-                      style: TextStyle(fontSize: 36.0, color: Colors.black87),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      '$_errorMessage',
-                      style: TextStyle(fontSize: 14.0, color: Colors.red),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty || !value.contains('@')) {
-                          return 'Please enter a valid email.';
-                        }
-                        return null;
-                      },
-                      controller: emailTextEditController,
-                      keyboardType: TextInputType.emailAddress,
-                      autofocus: true,
-                      textInputAction: TextInputAction.next,
-                      focusNode: _emailFocus,
-                      onFieldSubmitted: (term) {
-                        FocusScope.of(context).requestFocus(_firstNameFocus);
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Email',
-                        contentPadding:
-                        EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter your first name.';
-                        }
-                        return null;
-                      },
-                      controller: firstNameTextEditController,
-                      keyboardType: TextInputType.text,
-                      autofocus: false,
-                      textInputAction: TextInputAction.next,
-                      focusNode: _firstNameFocus,
-                      onFieldSubmitted: (term) {
-                        FocusScope.of(context).requestFocus(_lastNameFocus);
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'First Name',
-                        contentPadding:
-                        EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter your last name.';
-                        }
-                        return null;
-                      },
-                      controller: lastNameTextEditController,
-                      keyboardType: TextInputType.text,
-                      autofocus: false,
-                      textInputAction: TextInputAction.next,
-                      focusNode: _lastNameFocus,
-                      onFieldSubmitted: (term) {
-                        FocusScope.of(context).requestFocus(_passwordFocus);
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Last Name',
-                        contentPadding:
-                        EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.length < 8) {
-                          return 'Password must be longer than 8 characters.';
-                        }
-                        return null;
-                      },
-                      autofocus: false,
-                      obscureText: true,
-                      controller: passwordTextEditController,
-                      textInputAction: TextInputAction.next,
-                      focusNode: _passwordFocus,
-                      onFieldSubmitted: (term) {
-                        FocusScope.of(context)
-                            .requestFocus(_confirmPasswordFocus);
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        contentPadding:
-                        EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextFormField(
-                      autofocus: false,
-                      obscureText: true,
-                      controller: confirmPasswordTextEditController,
-                      focusNode: _confirmPasswordFocus,
-                      textInputAction: TextInputAction.done,
-                      validator: (value) {
-                        if (passwordTextEditController.text.length > 8 &&
-                            passwordTextEditController.text != value) {
-                          return 'Passwords do not match.';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Confirm Password',
-                        contentPadding:
-                        EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _firebaseAuth
-                              .createUserWithEmailAndPassword(
-                              email: emailTextEditController.text,
-                              password: passwordTextEditController.text)
-                              .then((onValue) {
-                            /*Firestore.instance
+
+    const registerTitle = Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Text(
+        "Register",
+        style: TextStyle(
+          fontSize: 35.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
+
+    final errorMessage = Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        _errorMessage,
+        style: const TextStyle(fontSize: 14.0, color: Colors.red),
+        textAlign: TextAlign.center,
+      ),
+    );
+
+    final emailField = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty || !value.contains('@')) {
+            return 'Please enter a valid email.';
+          }
+          return null;
+        },
+        controller: emailTextEditController,
+        keyboardType: TextInputType.emailAddress,
+        autofocus: true,
+        textInputAction: TextInputAction.next,
+        focusNode: _emailFocus,
+        onFieldSubmitted: (term) {
+          FocusScope.of(context).requestFocus(_firstNameFocus);
+        },
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: const BorderSide(
+                color: Colors.white,
+              )
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: BorderSide(
+                color: lightTeal,
+              )
+          ),
+          hintText: 'Email',
+          hintStyle: const TextStyle(
+              color: Colors.white
+          ),
+          contentPadding:
+          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0)),
+        ),
+      ),
+    );
+
+    final passwordField = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        validator: (value) {
+          if (value!.length < 8) {
+            return 'Password must be longer than 8 characters.';
+          }
+          return null;
+        },
+        autofocus: false,
+        obscureText: true,
+        controller: passwordTextEditController,
+        textInputAction: TextInputAction.next,
+        focusNode: _passwordFocus,
+        onFieldSubmitted: (term) {
+          FocusScope.of(context)
+              .requestFocus(_confirmPasswordFocus);
+        },
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: const BorderSide(
+                color: Colors.white,
+              )
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: BorderSide(
+                color: lightTeal,
+              )
+          ),
+          hintText: 'Password',
+          hintStyle: const TextStyle(
+              color: Colors.white
+          ),
+          contentPadding:
+          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0)),
+        ),
+      ),
+    );
+
+    final passwordConfirm = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        autofocus: false,
+        obscureText: true,
+        controller: confirmPasswordTextEditController,
+        focusNode: _confirmPasswordFocus,
+        textInputAction: TextInputAction.done,
+        validator: (value) {
+          if (passwordTextEditController.text.length > 8 &&
+              passwordTextEditController.text != value) {
+            return 'Passwords do not match.';
+          }
+          return null;
+        },
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: const BorderSide(
+                color: Colors.white,
+              )
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: BorderSide(
+                color: lightTeal,
+              )
+          ),
+          hintText: 'Confirm Password',
+          hintStyle: const TextStyle(
+              color: Colors.white
+          ),
+          contentPadding:
+          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0)),
+        ),
+      ),
+    );
+
+    final firstName = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Please enter your first name.';
+          }
+          return null;
+        },
+        controller: firstNameTextEditController,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        textInputAction: TextInputAction.next,
+        focusNode: _firstNameFocus,
+        onFieldSubmitted: (term) {
+          FocusScope.of(context).requestFocus(_lastNameFocus);
+        },
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: const BorderSide(
+                color: Colors.white,
+              )
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: BorderSide(
+                color: lightTeal,
+              )
+          ),
+          hintText: 'First Name',
+          hintStyle: const TextStyle(
+              color: Colors.white
+          ),
+          contentPadding:
+          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0)),
+        ),
+      ),
+    );
+
+    final lastName = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Please enter your last name.';
+          }
+          return null;
+        },
+        controller: lastNameTextEditController,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        textInputAction: TextInputAction.next,
+        focusNode: _lastNameFocus,
+        onFieldSubmitted: (term) {
+          FocusScope.of(context).requestFocus(_passwordFocus);
+        },
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: const BorderSide(
+                color: Colors.white,
+              )
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0),
+              borderSide: BorderSide(
+                color: lightTeal,
+              )
+          ),
+          hintText: 'Last Name',
+          hintStyle: const TextStyle(
+              color: Colors.white
+          ),
+          contentPadding:
+          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0)),
+        ),
+      ),
+    );
+
+    final signupButton = Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        onPressed: () {
+          if (_formKey.currentState!.validate()) {
+            _firebaseAuth
+                .createUserWithEmailAndPassword(
+                email: emailTextEditController.text,
+                password: passwordTextEditController.text)
+                .then((onValue) {
+              /*Firestore.instance
                                 .collection('users')
                                 .document(onValue.uid)
                                 .setData({
@@ -215,30 +303,53 @@ class _RegisterPageState extends State<RegisterPage> {
                             }).then((userInfoValue) {
                               Navigator.of(context).pushNamed(HomePage.tag);
                             });*/
-                          }).catchError((onError) {
-                            processError(onError);
-                          });
-                        }
-                      },
-                      padding: EdgeInsets.all(12),
-                      color: Colors.lightGreen,
-                      child: Text('Sign Up'.toUpperCase(),
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.zero,
-                      child: FlatButton(
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ))
+            }).catchError((onError) {
+              processError(onError);
+            });
+          }
+        },
+        padding: const EdgeInsets.all(12),
+        color: Colors.blueGrey,
+        child: Text('Sign Up'.toUpperCase(),
+            style: const TextStyle(color: Colors.white)),
+      ),
+    );
+
+    final cancelButton = Padding(
+        padding: EdgeInsets.zero,
+        child: FlatButton(
+          child: Text(
+            'Cancel',
+            style: TextStyle(color: lightTeal),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        )
+    );
+
+    return Scaffold(
+      backgroundColor: darkBackground,
+      body: Center(
+          child: Form(
+              key: _formKey,
+              child: ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(top: 36.0, left: 24.0, right: 24.0),
+                children: <Widget>[
+                  registerTitle,
+                  errorMessage,
+                  firstName,
+                  lastName,
+                  emailField,
+                  passwordField,
+                  passwordConfirm,
+                  signupButton,
+                  cancelButton,
                 ],
-              ))),
+              )
+          )
+      ),
     );
   }
 }
