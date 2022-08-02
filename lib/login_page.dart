@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scheduler/colors.dart';
 import 'package:scheduler/register_page.dart';
+import 'package:scheduler/view/calendar_page.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -138,6 +139,11 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CalendarPage())
+          );
           /*if (_formKey.currentState.validate()) {
             signIn(emailController.text, passwordController.text)
                 .then((uid) => {Navigator.of(context).pushNamed(HomePage.tag)})
