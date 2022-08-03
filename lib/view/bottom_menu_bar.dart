@@ -46,6 +46,7 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
         ),
       ),
       bottomNavigationBar: BottomNavyBar(
+        curve: Curves.easeOutSine,
         selectedIndex: _currentIndex,
         onItemSelected: (index) {
           setState(() => _currentIndex = index);
