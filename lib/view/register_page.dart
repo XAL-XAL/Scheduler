@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:scheduler/colors.dart';
+import 'package:scheduler/register_widgets.dart';
 
 class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
@@ -70,49 +71,6 @@ class _RegisterPageState extends State<RegisterPage> {
         _errorMessage,
         style: const TextStyle(fontSize: 14.0, color: Colors.red),
         textAlign: TextAlign.center,
-      ),
-    );
-
-    final emailField = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        validator: (value) {
-          if (value!.isEmpty || !value.contains('@')) {
-            return 'Please enter a valid email.';
-          }
-          return null;
-        },
-        controller: emailTextEditController,
-        keyboardType: TextInputType.emailAddress,
-        autofocus: true,
-        textInputAction: TextInputAction.next,
-        focusNode: _emailFocus,
-        onFieldSubmitted: (term) {
-          FocusScope.of(context).requestFocus(_firstNameFocus);
-        },
-        style: const TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(32.0),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              )
-          ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(32.0),
-              borderSide: BorderSide(
-                color: lightTeal,
-              )
-          ),
-          hintText: 'Email',
-          hintStyle: const TextStyle(
-              color: Colors.white
-          ),
-          contentPadding:
-          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(32.0)),
-        ),
       ),
     );
 
@@ -201,91 +159,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    final firstName = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Please enter your first name.';
-          }
-          return null;
-        },
-        controller: firstNameTextEditController,
-        keyboardType: TextInputType.text,
-        autofocus: false,
-        textInputAction: TextInputAction.next,
-        focusNode: _firstNameFocus,
-        onFieldSubmitted: (term) {
-          FocusScope.of(context).requestFocus(_lastNameFocus);
-        },
-        style: const TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(32.0),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              )
-          ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(32.0),
-              borderSide: BorderSide(
-                color: lightTeal,
-              )
-          ),
-          hintText: 'First Name',
-          hintStyle: const TextStyle(
-              color: Colors.white
-          ),
-          contentPadding:
-          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(32.0)),
-        ),
-      ),
-    );
-
-    final lastName = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Please enter your last name.';
-          }
-          return null;
-        },
-        controller: lastNameTextEditController,
-        keyboardType: TextInputType.text,
-        autofocus: false,
-        textInputAction: TextInputAction.next,
-        focusNode: _lastNameFocus,
-        onFieldSubmitted: (term) {
-          FocusScope.of(context).requestFocus(_passwordFocus);
-        },
-        style: const TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(32.0),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              )
-          ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(32.0),
-              borderSide: BorderSide(
-                color: lightTeal,
-              )
-          ),
-          hintText: 'Last Name',
-          hintStyle: const TextStyle(
-              color: Colors.white
-          ),
-          contentPadding:
-          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(32.0)),
-        ),
-      ),
-    );
 
     final managerButton = ListTile(
       title: const Text('Manager', style: TextStyle(color: Colors.white)),
@@ -374,13 +247,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(top: 36.0, left: 24.0, right: 24.0),
                 children: <Widget>[
+
                   registerTitle,
                   errorMessage,
-                  firstName,
-                  lastName,
-                  emailField,
-                  passwordField,
-                  passwordConfirm,
+                  RegisterWidget(type: 'First Name', textController: firstNameTextEditController, focusNode: _firstNameFocus, password: ''),
+                  RegisterWidget(type: 'Last Name', textController: lastNameTextEditController, focusNode: _lastNameFocus, password: ''),
+                  RegisterWidget(type: 'Email', textController: emailTextEditController, focusNode: _emailFocus, password: ''),
+                  RegisterWidget(type: 'Password', textController: passwordTextEditController, focusNode: _passwordFocus, password: ''),
+                  RegisterWidget(type: 'Confirm Password', textController: confirmPasswordTextEditController, focusNode: _confirmPasswordFocus, password: passwordTextEditController.text),
                   radioSelection,
                   signupButton,
                   cancelButton,
