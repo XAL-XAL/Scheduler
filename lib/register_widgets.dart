@@ -64,12 +64,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
         validator: (value) {
-          if (widget.type == 'Company') {
-            if (value!.isEmpty) {
-              return 'Please enter a Company';
-            }
-          }
-          else if (widget.type == 'First Name') {
+          if (widget.type == 'First Name') {
             if (value!.isEmpty) {
               return 'Please enter your first name.';
             }

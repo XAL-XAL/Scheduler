@@ -19,14 +19,12 @@ class _RegisterPageState extends State<RegisterPage> {
   //
   // Note: This is a GlobalKey<FormState>, not a GlobalKey<MyCustomFormState>!
   final _formKey = GlobalKey<FormState>();
-  final companyTextEditController = TextEditingController();
   final emailTextEditController = TextEditingController();
   final firstNameTextEditController = TextEditingController();
   final lastNameTextEditController = TextEditingController();
   final passwordTextEditController = TextEditingController();
   final confirmPasswordTextEditController = TextEditingController();
 
-  final FocusNode _companyFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _firstNameFocus = FocusNode();
   final FocusNode _lastNameFocus = FocusNode();
@@ -166,7 +164,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   registerTitle,
                   errorMessage,
-                  RegisterWidget(type: 'Company', textController: companyTextEditController, focusNode: _companyFocus, password: ''),
                   RegisterWidget(type: 'First Name', textController: firstNameTextEditController, focusNode: _firstNameFocus, password: ''),
                   RegisterWidget(type: 'Last Name', textController: lastNameTextEditController, focusNode: _lastNameFocus, password: ''),
                   RegisterWidget(type: 'Email', textController: emailTextEditController, focusNode: _emailFocus, password: ''),
