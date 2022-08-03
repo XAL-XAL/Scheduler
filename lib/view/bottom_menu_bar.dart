@@ -53,16 +53,19 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-            title: Text('Directory'),
-            icon: Icon(Icons.home),
-          ),
-          BottomNavyBarItem(
+            textAlign: TextAlign.center,
             title: Text('Calendar'),
-            icon: Icon(Icons.apps),
+            icon: Icon(Icons.calendar_today),
           ),
           BottomNavyBarItem(
+            textAlign: TextAlign.center,
+            title: Text('Directory'),
+            icon: Icon(Icons.groups_rounded),
+          ),
+          BottomNavyBarItem(
+            textAlign: TextAlign.center,
             title: Text('Profile'),
-            icon: Icon(Icons.chat_bubble),
+            icon: Icon(Icons.face_sharp),
           ),
         ],
       ),

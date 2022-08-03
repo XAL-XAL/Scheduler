@@ -16,7 +16,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
         backgroundColor: Colors.blue.shade400,
         title: Text("Directory"),
       ),
-      body: Center(child: Text("hi")),
+      body: Center(child: Text("Directory Page")),
     );
   }
 }
