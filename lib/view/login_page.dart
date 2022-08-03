@@ -6,7 +6,6 @@ import 'package:scheduler/view/bottom_menu_bar.dart';
 import 'package:scheduler/register_widgets.dart';
 import 'package:scheduler/view/register_page.dart';
 
-
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
 
