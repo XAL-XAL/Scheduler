@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scheduler/colors.dart';
-import 'package:scheduler/register_page.dart';
-import 'package:scheduler/view/directory_page.dart';
 import 'package:scheduler/view/bottom_menu_bar.dart';
+import 'package:scheduler/register_widgets.dart';
+import 'package:scheduler/view/register_page.dart';
+
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -15,11 +16,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Create a global key that will uniquely identify the Form widget and allow
-  // us to validate the form
-  //
-  // Note: This is a GlobalKey<FormState>, not a GlobalKey<MyCustomFormState>!
+
   final _formKey = GlobalKey<FormState>();
+
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final TextEditingController emailController = TextEditingController();
@@ -65,62 +66,6 @@ class _LoginPageState extends State<LoginPage> {
         _errorMessage,
         style: const TextStyle(fontSize: 14.0, color: Colors.red),
         textAlign: TextAlign.center,
-      ),
-    );
-
-    final email = TextFormField(
-      validator: (value) {
-        if (value!.isEmpty || !value.contains('@')) {
-          return 'Please enter a valid email.';
-        }
-        return null;
-      },
-      style: const TextStyle(color: Colors.white),
-      keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      controller: emailController,
-      decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32.0),
-            borderSide: const BorderSide(
-              color: Colors.white,
-            )),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32.0),
-            borderSide: BorderSide(
-              color: lightTeal,
-            )),
-        hintText: 'Email',
-        hintStyle: const TextStyle(color: Colors.white),
-        contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-      ),
-      textInputAction: TextInputAction.next,
-      onEditingComplete: () => node.nextFocus(),
-    );
-
-    final password = TextFormField(
-      autofocus: false,
-      obscureText: true,
-      controller: passwordController,
-      textInputAction: TextInputAction.done,
-      onFieldSubmitted: (v) {
-        FocusScope.of(context).requestFocus(node);
-      },
-      style: const TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32.0),
-            borderSide: const BorderSide(
-              color: Colors.white,
-            )),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32.0),
-            borderSide: BorderSide(
-              color: lightTeal,
-            )),
-        hintText: 'Password',
-        hintStyle: const TextStyle(color: Colors.white),
-        contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       ),
     );
 
@@ -185,9 +130,9 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 12.0),
                 errorMessage,
                 const SizedBox(height: 12.0),
-                email,
+                RegisterWidget(type: 'Email', textController: emailController, focusNode: _emailFocus, password: ''),
                 const SizedBox(height: 12.0),
-                password,
+                RegisterWidget(type: 'Password', textController: passwordController, focusNode: _passwordFocus, password: ''),
                 const SizedBox(height: 24.0),
                 loginButton,
                 registerButton,

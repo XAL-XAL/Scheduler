@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:scheduler/colors.dart';
-import 'register_page.dart';
-import 'login_page.dart';
+import 'view/register_page.dart';
+import 'view/login_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
