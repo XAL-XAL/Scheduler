@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scheduler/colors.dart';
 import 'package:scheduler/register_page.dart';
-import 'package:scheduler/view/calendar_page.dart';
+import 'package:scheduler/view/directory_page.dart';
+import 'package:scheduler/view/bottom_menu_bar.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -42,10 +43,9 @@ class _LoginPageState extends State<LoginPage> {
     final logo = Hero(
       tag: 'Logo',
       child: CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: 60.0,
-        child: Image.asset('assets/logo/pink_logo.png')
-      ),
+          backgroundColor: Colors.transparent,
+          radius: 60.0,
+          child: Image.asset('assets/logo/pink_logo.png')),
     );
 
     const title = Text(
@@ -81,21 +81,17 @@ class _LoginPageState extends State<LoginPage> {
       controller: emailController,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32.0),
-          borderSide: const BorderSide(
-            color: Colors.white,
-          )
-        ),
+            borderRadius: BorderRadius.circular(32.0),
+            borderSide: const BorderSide(
+              color: Colors.white,
+            )),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(32.0),
             borderSide: BorderSide(
               color: lightTeal,
-            )
-        ),
+            )),
         hintText: 'Email',
-        hintStyle: const TextStyle(
-            color: Colors.white
-        ),
+        hintStyle: const TextStyle(color: Colors.white),
         contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       ),
       textInputAction: TextInputAction.next,
@@ -116,18 +112,14 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: BorderRadius.circular(32.0),
             borderSide: const BorderSide(
               color: Colors.white,
-            )
-        ),
+            )),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(32.0),
             borderSide: BorderSide(
               color: lightTeal,
-            )
-        ),
+            )),
         hintText: 'Password',
-        hintStyle: const TextStyle(
-            color: Colors.white
-        ),
+        hintStyle: const TextStyle(color: Colors.white),
         contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       ),
     );
@@ -139,11 +131,10 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(24),
         ),
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const CalendarPage())
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => BottomMenuBar()),
           );
+
           /*if (_formKey.currentState.validate()) {
             signIn(emailController.text, passwordController.text)
                 .then((uid) => {Navigator.of(context).pushNamed(HomePage.tag)})
@@ -156,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    final forgotLabel = FlatButton(
+    final forgotLabel = TextButton(
       child: Text(
         'Forgot password?',
         style: TextStyle(color: lightTeal),
@@ -226,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       setState(() {
         _errorMessage =
-        "There was an error logging in. Please try again later.";
+            "There was an error logging in. Please try again later.";
       });
     }
   }

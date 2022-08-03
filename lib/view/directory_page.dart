@@ -12,9 +12,11 @@ class _DirectoryPageState extends State<DirectoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-      backgroundColor: Colors.blue.shade400,
-      title: Text("Directory"),
-    ));
+      appBar: AppBar(
+        backgroundColor: Colors.blue.shade400,
+        title: Text("Directory"),
+      ),
+      body: Center(child: Text("hi")),
+    );
   }
 }
