@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:scheduler/colors.dart';
 import 'package:scheduler/register_widgets.dart';
 
+import 'bottom_menu_bar.dart';
+
 class RegisterPage extends StatefulWidget {
   static String tag = 'register-page';
 
@@ -113,20 +115,16 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            _firebaseAuth
-                .createUserWithEmailAndPassword(
-                email: emailTextEditController.text,
-                password: passwordTextEditController.text)
+            _firebaseAuth.createUserWithEmailAndPassword(email: emailTextEditController.text, password: passwordTextEditController.text)
                 .then((onValue) {
-              /*Firestore.instance
-                                .collection('users')
-                                .document(onValue.uid)
-                                .setData({
-                              'firstName': firstNameTextEditController.text,
-                              'lastName': lastNameTextEditController.text,
-                            }).then((userInfoValue) {
-                              Navigator.of(context).pushNamed(HomePage.tag);
-                            });*/
+                  FirebaseFirestore.instance.collection('users').doc(onValue.user?.uid).set({
+                      'firstName': firstNameTextEditController.text,
+                      'lastName': lastNameTextEditController.text,
+                      'email': emailTextEditController.text,
+                      'type': selectedRadioTile == 1 ? 'Manager' : 'Employee',
+                  }).then((userInfoValue) {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => BottomMenuBar()));
+                  });
             }).catchError((onError) {
               processError(onError);
             });
