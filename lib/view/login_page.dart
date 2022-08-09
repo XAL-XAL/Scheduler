@@ -5,6 +5,7 @@ import 'package:scheduler/colors.dart';
 import 'package:scheduler/view/bottom_menu_bar.dart';
 import 'package:scheduler/register_widgets.dart';
 import 'package:scheduler/view/register_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -74,16 +75,36 @@ class _LoginPageState extends State<LoginPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => BottomMenuBar()),
-          );
-
-          /*if (_formKey.currentState.validate()) {
-            signIn(emailController.text, passwordController.text)
-                .then((uid) => {Navigator.of(context).pushNamed(HomePage.tag)})
-                .catchError((error) => {processError(error)});
-          }*/
+        onPressed: () async {
+          try {
+            UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => BottomMenuBar()),
+            );
+          } on FirebaseAuthException catch (e) {
+            if (e.code == 'user-not-found') {
+              Fluttertoast.showToast(
+                  msg: 'No user found for that email',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0
+              );
+            }
+            else if (e.code == ' wrong-password') {
+              Fluttertoast.showToast(
+                  msg: 'Wrong password provided for that user',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0
+              );
+            }
+          }
         },
         padding: const EdgeInsets.all(12),
         color: darkTeal,
