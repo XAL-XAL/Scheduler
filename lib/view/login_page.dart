@@ -82,7 +82,9 @@ class _LoginPageState extends State<LoginPage> {
             UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
             String? uid = await FirebaseAuth.instance.currentUser?.uid ;
             print('NAME');
-            print(FirebaseFirestore.instance.collection('users').doc(uid).snapshots());
+            CollectionReference users = FirebaseFirestore.instance.collection('users');
+            FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) => print(value.get('firstName')));
+
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => BottomMenuBar()),
             );
