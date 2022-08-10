@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -78,9 +80,13 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           try {
             UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+            String? uid = await FirebaseAuth.instance.currentUser?.uid ;
+            print('NAME');
+            print(FirebaseFirestore.instance.collection('users').doc(uid).snapshots());
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => BottomMenuBar()),
             );
+
           } on FirebaseAuthException catch (e) {
             if (e.code == 'user-not-found') {
               Fluttertoast.showToast(
