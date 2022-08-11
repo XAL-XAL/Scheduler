@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scheduler/view/calendar_page.dart';
@@ -20,6 +22,7 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
   @override
   void initState() {
     super.initState();
+    getUserFirstName();
     _pageController = PageController();
   }
 
@@ -27,6 +30,14 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  Future<void> getUserFirstName() async {
+    String? id = FirebaseAuth.instance.currentUser?.uid;
+    DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(id).get();
+    var name = doc.get('firstName').toString();
+
+    print(name);
   }
 
   @override
